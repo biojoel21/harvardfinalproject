@@ -81,6 +81,17 @@ This is the home page of the application. It provides an overview of the invoice
 
 ![Registration Page](https://github.com/biojoel21/harvardfinalproject/blob/master/invoices/static/invoices/images/3_RegistrationPage.png)
 
+![Landing Page](https://github.com/biojoel21/harvardfinalproject/blob/master/invoices/static/invoices/images/4_LandingPage_Invoices.png)
+
+![Invoice Creation](invoices/static/invoices/images/5_InvoiceCreation.png)
+
+![Clients Page](invoices/static/invoices/images/6_ClientsPage.png)
+
+![Edit Clients Page](invoices/static/invoices/images/6_1_EditClientsPage.png)
+
+![Suppliers Page](invoices/static/invoices/images/7_SuppliersPage.png)
+
+![Edit Suppliers Page](invoices/static/invoices/images/7_1_EditSuppliersPage.png)
 
 
 1. Install the required Python packages by running `pip install -r requirements.txt`.
