@@ -51,6 +51,7 @@ This project stands out due to its complexity and distinctiveness. Unlike other 
 ┣ 📜tests.py
 ┣ 📜urls.py
 ┗ 📜views.py
+```
 
 ## Project File Structure
 ```
@@ -66,11 +67,21 @@ This project stands out due to its complexity and distinctiveness. Unlike other 
 ┣ 📜manage.py
 ┣ 📜readme.md
 ┗ 📜requirements.txt
+```
 
 ## Application Screenshots
 
+Here are some screenshots of the application:
 
-## How to Run the Application
+![Home Page](https://github.com/biojoel21/harvardfinalproject/blob/master/invoices/static/invoices/images/1_HomePage.png)
+
+This is the home page of the application. It provides an overview of the invoices and allows users to navigate through the application. Users can view, create, update, and delete invoices from this page. The table displays important information about each invoice, such as the client, supplier, and total amount. The pagination feature allows users to easily navigate through multiple pages of invoices.
+
+![Login Page](https://github.com/biojoel21/harvardfinalproject/blob/master/invoices/static/invoices/images/2_LoginPage.png)
+
+![Registration Page](https://github.com/biojoel21/harvardfinalproject/blob/master/invoices/static/invoices/images/3_RegistrationPage.png)
+
+
 
 1. Install the required Python packages by running `pip install -r requirements.txt`.
 2. Navigate to the project directory and run `python manage.py runserver`.
