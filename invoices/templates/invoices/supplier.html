@@ -1,0 +1,139 @@
+{% extends "invoices/layout.html" %}
+
+{% block body %}
+
+<script>
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length == 2) return parts.pop().split(';').shift();
+    }
+
+    function submitHandler(id) {
+        
+        const suppliername = document.getElementById(`popup_name_${id}`).value;
+        const supplieridnumber = document.getElementById(`popup_idnumber_${id}`).value;      
+        const supplierstate = document.getElementById(`popup_state_${id}`).value;
+        const supplierzip = document.getElementById(`popup_zip_${id}`).value;
+        const supplierphone = document.getElementById(`popup_phone_${id}`).value;
+        const supplieremail = document.getElementById(`popup_email_${id}`).value;
+
+        // Create the data object
+        const data = {
+            suppliername,
+            supplieridnumber,            
+            supplierstate,
+            supplierzip,
+            supplierphone,
+            supplieremail
+        };
+
+        const modal = document.getElementById(`modal_edit_supplier_${id}`);
+        fetch(`/editsupplier/${id}`, {
+            method: "POST",
+            headers: { "Content-type": "application/json", "X-CSRFToken": getCookie("csrftoken") },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Hide the modal using Bootstrap's method
+            $(`#modal_edit_supplier_${id}`).modal('hide');
+
+            // Refresh the page
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }       
+
+</script>
+
+<div class="create">
+    <h2>Create Supplier</h2>
+
+    <form action="{% url 'createsupplier' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" id="suppliername" name="suppliername" placeholder="Name">     
+        <input type="text" id="supplieridnumber" name="supplieridnumber" placeholder="Supplier ID Number">         
+        <input type="text" id="supplierstate" name="supplierstate" placeholder="State">
+        <input type="text" id="supplierzip" name="supplierzip" placeholder="Zip">
+        <input type="text" id="supplierphone" name="supplierphone" placeholder="Phone">
+        <input type="text" id="supplieremail" name="supplieremail" placeholder="Email">
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<br>
+<br>
+<table class="table table-hover tabledown">
+    <thead>
+        <tr>
+            <th>Name</th>    
+            <th>Number</th>        
+            <th>State</th>
+            <th>Zip</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for supplier in suppliers_page %}
+        <tr>
+            <td>{{ supplier.suppliername }}</td>     
+            <td>{{ supplier.supplieridnumber }}</td>       
+            <td>{{ supplier.supplierstate }}</td>
+            <td>{{ supplier.supplierzip }}</td>
+            <td>{{ supplier.supplierphone }}</td>
+            <td>{{ supplier.supplieremail }}</td>
+            <td><button class="btn btn-info btn-sm custom-margin" data-toggle="modal" data-target="#modal_edit_supplier_{{ supplier.id }}">Edit</button></td>
+        </tr>
+        <div class="modal fade" id="modal_edit_supplier_{{ supplier.id }}" tabindex="-1" role="dialog" aria-labelledby="modal_edit_supplier_{{ supplier.id }}_label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Edit Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">                        
+                        <label for="popup_name" class="small-label">Name</label>  
+                        <input type="text" id="popup_name_{{ supplier.id }}" name="suppliername" placeholder="Name" value="{{ supplier.suppliername }}">  
+                        <label for="popup_idnumber" class="small-label">Client Number</label>
+                        <input type="text" id="popup_idnumber_{{ supplier.id }}" name="supplieridnumber" placeholder="Supplier Number" value="{{ supplier.supplieridnumber }}">
+                        <label for="popup_state" class="small-label">State</label>
+                        <input type="text" id="popup_state_{{ supplier.id }}" name="supplierstate" placeholder="State" value="{{ supplier.supplierstate }}">
+                        <label for="popup_zip" class="small-label">Zip</label>
+                        <input type="text" id="popup_zip_{{ supplier.id }}" name="supplierzip" placeholder="Zip" value="{{ supplier.supplierzip }}">
+                        <label for="popup_phone" class="small-label">Phone</label>
+                        <input type="text" id="popup_phone_{{ supplier.id }}" name="supplierphone" placeholder="Phone" value="{{ supplier.supplierphone }}">
+                        <label for="popup_email" class="small-label">Email</label>
+                        <input type="text" id="popup_email_{{ supplier.id }}" name="supplieremail" placeholder="Email" value="{{ supplier.supplieremail }}">          
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="submitHandler({{ supplier.id }})">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </tbody>    
+</table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination d-flex justify-content-center">
+        {% if suppliers_page.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ suppliers_page.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% if suppliers_page.has_next %}          
+            <li class="page-item"><a class="page-link" href="?page={{ suppliers_page.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

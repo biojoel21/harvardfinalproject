@@ -1,0 +1,137 @@
+{% extends "invoices/layout.html" %}
+
+{% block body %}
+
+<script>
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length == 2) return parts.pop().split(';').shift();
+    }
+
+    function submitHandler(id) {
+        
+        const clientname = document.getElementById(`popup_name_${id}`).value;
+        const clientidnumber = document.getElementById(`popup_idnumber_${id}`).value;        
+        const clientstate = document.getElementById(`popup_state_${id}`).value;
+        const clientzip = document.getElementById(`popup_zip_${id}`).value;
+        const clientphone = document.getElementById(`popup_phone_${id}`).value;
+        const clientemail = document.getElementById(`popup_email_${id}`).value;
+
+        // Create the data object
+        const data = {
+            clientname,
+            clientidnumber,            
+            clientstate,
+            clientzip,
+            clientphone,
+            clientemail
+        };
+
+        const modal = document.getElementById(`modal_edit_client_${id}`);
+        fetch(`/editclient/${id}`, {
+            method: "POST",
+            headers: { "Content-type": "application/json", "X-CSRFToken": getCookie("csrftoken") },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Hide the modal using Bootstrap's method
+            $(`#modal_edit_client_${id}`).modal('hide');
+
+            //Refresh the page
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }   
+    
+</script>
+
+
+<div class="create">
+    <h2>Create Client</h2>
+    <form action="{% url 'createclient' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" id="clientname" name="clientname" placeholder="Name">
+        <input type="text" id="clientidnumber" name="clientidnumber" placeholder="Client Number">        
+        <input type="text" id="clientstate" name="clientstate" placeholder="State">
+        <input type="text" id="clientzip" name="clientzip" placeholder="Zip">
+        <input type="text" id="clientphone" name="clientphone" placeholder="Phone">
+        <input type="text" id="clientemail" name="clientemail" placeholder="Email">
+        
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<br>
+<br>
+<table class="table table-hover tabledown">
+    <thead>
+        <tr>
+            <th>Name</th> 
+            <th>Number</th>           
+            <th>State</th>
+            <th>Zip</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients_page %}
+        <tr>
+            <td>{{ client.clientname }}</td>  
+            <td>{{ client.clientidnumber }}</td>  
+            <td>{{ client.clientstate }}</td>
+            <td>{{ client.clientzip }}</td>
+            <td>{{ client.clientphone }}</td>
+            <td>{{ client.clientemail }}</td>
+            <td><button class="btn btn-info btn-sm custom-margin" data-toggle="modal" data-target="#modal_edit_client_{{ client.id }}">Edit</button></td>
+        </tr>
+        <div class="modal fade" id="modal_edit_client_{{ client.id }}" tabindex="-1" role="dialog" aria-labelledby="modal_edit_client_{{ client.id }}_label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Edit Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">                        
+                        <label for="popup_name" class="small-label">Name</label>  
+                        <input type="text" id="popup_name_{{ client.id }}" name="clientname" placeholder="Name" value="{{ client.clientname }}">  
+                        <label for="popup_idnumber" class="small-label">Client Number</label>
+                        <input type="text" id="popup_idnumber_{{ client.id }}" name="clientidnumber" placeholder="Client Number" value="{{ client.clientidnumber }}">
+                        <label for="popup_state" class="small-label">State</label>
+                        <input type="text" id="popup_state_{{ client.id }}" name="clientstate" placeholder="State" value="{{ client.clientstate }}">
+                        <label for="popup_zip" class="small-label">Zip</label>
+                        <input type="text" id="popup_zip_{{ client.id }}" name="clientzip" placeholder="Zip" value="{{ client.clientzip }}">
+                        <label for="popup_phone" class="small-label">Phone</label>
+                        <input type="text" id="popup_phone_{{ client.id }}" name="clientphone" placeholder="Phone" value="{{ client.clientphone }}">
+                        <label for="popup_email" class="small-label">Email</label>
+                        <input type="text" id="popup_email_{{ client.id }}" name="clientemail" placeholder="Email" value="{{ client.clientemail }}">          
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="submitHandler({{ client.id }})">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        {% endfor %}
+    </tbody>
+</table>
+<nav aria-label="Page navigation">
+    <ul class="pagination d-flex justify-content-center">
+        {% if clients_page.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ clients_page.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% if clients_page.has_next %}          
+            <li class="page-item"><a class="page-link" href="?page={{ clients_page.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

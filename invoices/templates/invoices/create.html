@@ -1,0 +1,36 @@
+{% extends "invoices/layout.html" %}
+
+{% block body %}
+
+
+<div class="create">
+    <h2>Create Invoice</h2>
+
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <input type="text" id="invoicenumber" name="invoicenumber" placeholder="Invoice Number">
+        <input type="date" id="invoicedate" name="invoicedate">
+        <select id="client" name="client">
+            <option selected disabled>Select a client</option>
+            {% for cl in clients %}
+                <option value="{{ cl }}">{{ cl }}</option>
+            {% endfor %}
+        </select>
+        <select id="supplier" name="supplier">
+            <option selected disabled>Select a supplier</option>
+            {% for su in suppliers %}
+                <option value="{{ su }}">{{ su }}</option>
+            {% endfor %}
+        </select>
+        <select id="invoicetype" name="invoicetype">
+            <option selected disabled>Select a invoice type</option>
+            {% for it in invoicetypes %}
+                <option value="{{ it }}">{{ it }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" id="invoicetotal" name="invoicetotal" step="0.01" placeholder="Invoice Total">
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+{% endblock %}
