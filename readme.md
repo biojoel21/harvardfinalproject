@@ -8,12 +8,67 @@ This project is a comprehensive Invoices Application built using Django. The app
 
 This project stands out due to its complexity and distinctiveness. Unlike other projects, it involves a more complex data model, including relationships between invoices, clients, and suppliers. It also includes a pagination feature, which is not commonly found in other projects. The application is built using Django, a high-level Python Web framework that encourages rapid development and clean, pragmatic design. This adds to the complexity as it involves understanding and implementing Django's various components such as views, templates, and models.
 
-## File Structure
+## File Contributions
 
 - `index.html`: This file contains the main HTML structure of the application. It includes a table for displaying the invoices and navigation for pagination.
 - `models.py`: This file contains the data models for the application, including the Invoice, Client, and Supplier models.
 - `views.py`: This file contains the views for the application. It includes the logic for displaying the invoices, handling pagination, and managing clients and suppliers.
 - `urls.py`: This file contains the URL configurations for the application.
+
+## Application File Structure
+```
+┣ 📂__pycache__
+┃ ┣ 📜__init__.cpython-312.pyc
+┃ ┣ 📜admin.cpython-312.pyc
+┃ ┣ 📜apps.cpython-312.pyc
+┃ ┣ 📜models.cpython-312.pyc
+┃ ┣ 📜urls.cpython-312.pyc
+┃ ┗ 📜views.cpython-312.pyc
+┣ 📂migrations
+┃ ┣ 📂__pycache__
+┃ ┃ ┣ 📜__init__.cpython-312.pyc
+┃ ┃ ┣ 📜0001_initial.cpython-312.pyc
+┃ ┃ ┗ 📜0002_remove_client_clientaddress_and_more.cpython-312.pyc
+┃ ┣ 📜__init__.py
+┃ ┣ 📜0001_initial.py
+┃ ┗ 📜0002_remove_client_clientaddress_and_more.py
+┣ 📂static
+┃ ┗ 📂invoices
+┃   ┗ 📜styles.css
+┣ 📂templates
+┃ ┗ 📂invoices
+┃   ┣ 📜client.html
+┃   ┣ 📜create.html
+┃   ┣ 📜index.html
+┃   ┣ 📜layout.html
+┃   ┣ 📜login.html
+┃   ┣ 📜register.html
+┃   ┗ 📜supplier.html
+┣ 📜__init__.py
+┣ 📜admin.py
+┣ 📜apps.py
+┣ 📜models.py
+┣ 📜tests.py
+┣ 📜urls.py
+┗ 📜views.py
+
+## Project File Structure
+```
+┣ 📂finalproject
+┃ ┣ 📂__pycache__
+┃ ┣ 📜__init__.py
+┃ ┣ 📜asgi.py
+┃ ┣ 📜settings.py
+┃ ┣ 📜urls.py
+┃ ┗ 📜wsgi.py
+┣ 📜.gitignore
+┣ 📜db.sqlite3
+┣ 📜manage.py
+┣ 📜readme.md
+┗ 📜requirements.txt
+
+## Application Screenshots
+
 
 ## How to Run the Application
 
