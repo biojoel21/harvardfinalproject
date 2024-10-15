@@ -109,6 +109,9 @@ This is the home page of the application. It provides an overview of the invoice
 
 ![Edit Suppliers Page](invoices/static/invoices/images/7_1_EditSuppliersPage.png)
 
+## Application Demo Video
+[View video](https://youtu.be/iki8RmsgEOI)
+
 ## Installation and Setup
 
 1. Clone the repository to your local machine using `git clone git@github.com:biojoel21/harvardfinalproject.git`.
